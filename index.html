@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plataforma de Jogos</title>
+    <style>
+      :root {
+        --bg: #fff5f5;
+        --bg-strong: #ffe5e5;
+        --card: #ffffff;
+        --text: #4b1d1d;
+        --muted: #8b5a5a;
+        --accent: #ef4444;
+        --accent-2: #dc2626;
+        --border: #f7b2b2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--text);
+        background: linear-gradient(135deg, var(--bg) 0%, var(--bg-strong) 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .app {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 32px 20px 24px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: 0 14px 40px rgba(239, 68, 68, 0.15);
+      }
+
+      .badge {
+        display: inline-block;
+        margin: 0 0 12px;
+        padding: 8px 14px;
+        background: #fee2e2;
+        color: var(--accent-2);
+        border-radius: 999px;
+        font-weight: bold;
+        font-size: 0.95rem;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+      }
+
+      .hero p {
+        margin: 0 auto 20px;
+        max-width: 650px;
+        line-height: 1.6;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+        color: white;
+        box-shadow: 0 10px 22px rgba(239, 68, 68, 0.24);
+      }
+
+      .btn.secondary {
+        background: white;
+        color: var(--accent-2);
+        border: 1px solid var(--border);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 24px;
+      }
+
+      .card {
+        display: block;
+        padding: 20px;
+        text-decoration: none;
+        color: inherit;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 34px rgba(239, 68, 68, 0.2);
+      }
+
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .card .emoji {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+        display: inline-block;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 20px 10px 6px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 760px) {
+        body {
+          padding: 12px;
+        }
+
+        .hero {
+          padding: 24px 14px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero">
+        <p class="badge">🎮 Plataforma de Jogos</p>
+        <h1>Jogos divertidos em um só lugar</h1>
+        <p>
+          Uma plataforma leve, bonita e vermelha, pensada para funcionar bem em celular,
+          tablet e desktop, pronta para ser publicada no GitHub Pages.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="#jogos">Ver jogos</a>
+          <a class="btn secondary" href="forca.html">Começar pelo Forca</a>
+        </div>
+      </section>
+
+      <section class="grid" id="jogos">
+        <a class="card" href="forca.html">
+          <span class="emoji">🪓</span>
+          <h2>Jogo da Forca</h2>
+          <p>Descubra a palavra antes de esgotar as tentativas.</p>
+        </a>
+
+        <a class="card" href="Snake.html">
+          <span class="emoji">🐍</span>
+          <h2>Snake</h2>
+          <p>Controle a cobra, coma a comida e marque pontos.</p>
+        </a>
+
+        <a class="card" href="https://carolineamancio.github.io/mascote-virtual-espacial/" target="_blank" rel="noopener noreferrer">
+          <span class="emoji">🪐</span>
+          <h2>Mascote Virtual Espacial</h2>
+          <p>Uma aventura divertida com temática espacial.</p>
+        </a>
+
+        <a class="card" href="https://carolineamancio.github.io/jogo-do-gato/" target="_blank" rel="noopener noreferrer">
+          <span class="emoji">🐱</span>
+          <h2>Jogo do Gato</h2>
+          <p>Desafie alguém em uma partida clássica de tic-tac-toe.</p>
+        </a>
+
+        <a class="card" href="https://carolineamancio.github.io/3D-GAME/" target="_blank" rel="noopener noreferrer">
+          <span class="emoji">🎮</span>
+          <h2>3D Game</h2>
+          <p>Explore uma experiência mais imersiva com visão em 3D.</p>
+        </a>
+
+        <a class="card" href="https://carolineamancio.github.io/jogo-da-memoria/" target="_blank" rel="noopener noreferrer">
+          <span class="emoji">🧠</span>
+          <h2>Jogo da Memória</h2>
+          <p>Teste sua atenção encontrando os pares certos.</p>
+        </a>
+      </section>
+
+      <p class="footer">Pronto para ser publicado no GitHub Pages.</p>
+    </main>
+  </body>
+</html>

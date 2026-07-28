@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Forca - Games</title>
+  <style>
+    body {
+      background: linear-gradient(180deg, #f6f8ff 10%, #d8e7ff 42%, #becffb 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #0f172a;
+      font-family: Arial, sans-serif;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .game-container {
+      background: rgba(255, 255, 255, 0.88);
+      border: 2px solid #38bdf8;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+      max-width: 720px;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .panel {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .word-display {
+      font-size: 32px;
+      letter-spacing: 12px;
+      text-align: center;
+      padding: 16px;
+      background: #eef6ff;
+      border: 1px solid #93c5fd;
+      border-radius: 12px;
+      user-select: none;
+    }
+
+    .status,
+    .wrong-letters,
+    .message {
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .letters-grid {
+      display: grid;
+      grid-template-columns: repeat(13, minmax(40px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .letters-grid button {
+      padding: 10px 0;
+      border: 1px solid #38bdf8;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #0f172a;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .letters-grid button:hover:not(:disabled) {
+      background: #bfdbfe;
+      transform: translateY(-1px);
+    }
+
+    .letters-grid button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button.action {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #38bdf8;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    button.action:hover {
+      background: #0ea5e9;
+    }
+
+    @media (max-width: 640px) {
+      .letters-grid {
+        grid-template-columns: repeat(7, minmax(40px, 1fr));
+      }
+
+      .word-display {
+        font-size: 26px;
+        letter-spacing: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>🪓 Jogo da Forca</h1>
+<div class="game-container">
+  <div class="panel">
+    <div id="wordDisplay" class="word-display">_ _ _ _ _</div>
+    <div id="status" class="status">Tentativas restantes: 6</div>
+    <div id="wrongLetters" class="wrong-letters">Letras erradas: —</div>
+    <div id="message" class="message"></div>
+  </div>
+
+  <div class="letters-grid" id="lettersGrid"></div>
+</div>
+
+<div class="buttons">
+  <button id="startBtn" class="action" onclick="startGame()">Iniciar Jogo</button>
+  <button id="resetBtn" class="action" onclick="resetGame()" style="display: none;">Reiniciar Jogo</button>
+  <button class="action" onclick="window.location.href='index.html'">Voltar ao Portal</button>
+</div>
+
+<script>
+const words = [
+  "CARROSSEL",
+  "DESAFIO",
+  "PARALELEPIPEDO",
+  "CORAÇÃO",
+  "FRUTAS",
+  "BRINQUEDO",
+  "MONTANHA",
+  "CADERNO",
+  "ELEFANTE",
+  "ANIVERSARIO",
+  "AMIZADE",
+  "TECLADO",
+  "CONQUISTA",
+  "PAPELARIA",
+  "SOLTEIRO"
+];
+
+const maxAttempts = 6;
+let secretWord = "";
+let guessedLetters = [];
+let wrongLetters = [];
+let attemptsLeft = maxAttempts;
+let gameRunning = false;
+
+const wordDisplay = document.getElementById("wordDisplay");
+const statusDisplay = document.getElementById("status");
+const wrongLettersDisplay = document.getElementById("wrongLetters");
+const messageDisplay = document.getElementById("message");
+const lettersGrid = document.getElementById("lettersGrid");
+const startBtn = document.getElementById("startBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+function createLetterButtons() {
+  lettersGrid.innerHTML = "";
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  for (let letter of alphabet) {
+    const button = document.createElement("button");
+    button.textContent = letter;
+    button.id = `letter-${letter}`;
+    button.addEventListener("click", () => handleGuess(letter));
+    lettersGrid.appendChild(button);
+  }
+}
+
+function startGame() {
+  secretWord = words[Math.floor(Math.random() * words.length)];
+  guessedLetters = [];
+  wrongLetters = [];
+  attemptsLeft = maxAttempts;
+  gameRunning = true;
+
+  createLetterButtons();
+  updateDisplay();
+  messageDisplay.textContent = "Faça suas escolhas: clique em uma letra ou use o teclado.";
+  startBtn.style.display = "none";
+  resetBtn.style.display = "inline-block";
+}
+
+function resetGame() {
+  gameRunning = false;
+  startBtn.style.display = "inline-block";
+  resetBtn.style.display = "none";
+  lettersGrid.innerHTML = "";
+  wordDisplay.textContent = "_ _ _ _ _";
+  statusDisplay.textContent = "Tentativas restantes: 6";
+  wrongLettersDisplay.textContent = "Letras erradas: —";
+  messageDisplay.textContent = "Clique em Iniciar Jogo para começar.";
+}
+
+function updateDisplay() {
+  const revealed = [...secretWord].map(letter => guessedLetters.includes(letter) ? letter : "_");
+  wordDisplay.textContent = revealed.join(" ");
+  statusDisplay.textContent = `Tentativas restantes: ${attemptsLeft}`;
+  wrongLettersDisplay.textContent = wrongLetters.length > 0 ? `Letras erradas: ${wrongLetters.join(", ")}` : "Letras erradas: —";
+}
+
+function handleGuess(letter) {
+  if (!gameRunning) return;
+  const button = document.getElementById(`letter-${letter}`);
+  button.disabled = true;
+
+  if (secretWord.includes(letter)) {
+    guessedLetters.push(letter);
+    messageDisplay.textContent = `Boa! A letra ${letter} está na palavra.`;
+  } else {
+    wrongLetters.push(letter);
+    attemptsLeft -= 1;
+    messageDisplay.textContent = `Ops! A letra ${letter} não está na palavra.`;
+  }
+
+  updateDisplay();
+  checkGameState();
+}
+
+function checkGameState() {
+  const revealedWord = [...secretWord].every(letter => guessedLetters.includes(letter));
+
+  if (revealedWord) {
+    messageDisplay.textContent = `Parabéns! Você descobriu a palavra ${secretWord}.`;
+    endGame();
+    return;
+  }
+
+  if (attemptsLeft <= 0) {
+    messageDisplay.textContent = `Game over! A palavra era ${secretWord}. Tente novamente.`;
+    endGame();
+  }
+}
+
+function endGame() {
+  gameRunning = false;
+  const buttons = lettersGrid.querySelectorAll("button");
+  buttons.forEach(btn => btn.disabled = true);
+}
+
+window.addEventListener("keydown", (event) => {
+  if (!gameRunning) return;
+  const letter = event.key.toUpperCase();
+  if (/^[A-Z]$/.test(letter)) {
+    const button = document.getElementById(`letter-${letter}`);
+    if (button && !button.disabled) {
+      button.click();
+    }
+  }
+});
+
+resetGame();
+</script>
+
+</body>
+</html>
