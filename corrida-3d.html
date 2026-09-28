@@ -302,6 +302,7 @@
     document.getElementById('restart').addEventListener('click', () => location.reload());
 
     const clock = new THREE.Clock();
+    let cameraFollowDistance = 8;
     function animate() {
       requestAnimationFrame(animate);
       const dt = Math.min(clock.getDelta(), .05);
@@ -372,12 +373,15 @@
         clearBehind(traffic);
         clearBehind(obstacles);
       }
-      camera.position.lerp(new THREE.Vector3(player.position.x, 5.5, playerZ + 11), .09);
+      camera.position.x += (player.position.x - camera.position.x) * Math.min(1, dt * 8);
+      const targetCameraDistance = 8 + Math.max(0, Math.min(1, playerSpeed / baseSpeed - 1)) * 1.5;
+      cameraFollowDistance += (targetCameraDistance - cameraFollowDistance) * Math.min(1, dt * 5);
+      camera.position.z = playerZ + cameraFollowDistance;
       camera.lookAt(roadCenter(playerZ - 25) + playerOffset * .35, 1, playerZ - 25);
       renderer.render(scene, camera);
     }
     player.position.set(roadCenter(playerZ), 0, playerZ);
-    camera.position.set(player.position.x, 5.5, playerZ + 11);
+    camera.position.set(player.position.x, 5.5, playerZ + cameraFollowDistance);
     animate();
     addEventListener('resize', () => {
       camera.aspect = innerWidth / innerHeight;
