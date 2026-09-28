@@ -14,11 +14,11 @@ Bem-vindo à plataforma de jogos em estilo vermelho e claro, criada para ser res
 ### Jogos locais
 - Jogo da Forca
 - Snake
+- Corrida 3D
 
 ### Jogos externos
 - Mascote Virtual Espacial
 - Jogo do Gato
-- 3D Game
 - Jogo da Memória
 
 ## 📱 Responsividade
