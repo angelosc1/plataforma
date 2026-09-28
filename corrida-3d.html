@@ -55,7 +55,7 @@
     <div class="group"><button id="down" type="button" aria-label="Frear">↓</button><button id="up" type="button" aria-label="Acelerar">↑</button><button id="turbo" type="button" aria-label="Turbo">⚡</button></div>
   </div>
   <div id="result" role="dialog" aria-modal="true" aria-labelledby="result-title">
-    <div class="panel"><h1 id="result-title"></h1><p id="result-score"></p><button id="restart" type="button">Jogar novamente</button></div>
+    <div class="panel" id="result-panel" tabindex="-1"><h1 id="result-title"></h1><p id="result-score"></p><button id="restart" type="button">Jogar novamente</button></div>
   </div>
 
   <script type="module">
@@ -251,7 +251,8 @@
       document.getElementById('result-title').textContent = '💥 Fim de jogo';
       document.getElementById('result-score').textContent = `Pontuação: ${score}`;
       result.classList.add('visible');
-      document.getElementById('restart').focus();
+      // O foco no botão faria o Espaço do turbo acioná-lo ao fim da partida.
+      document.getElementById('result-panel').focus();
     }
     function hit(model, longitudinalRadius, previousPlayerZ, previousObjectZ, lateralRadius = 1.55) {
       const gapBefore = previousPlayerZ - previousObjectZ;
